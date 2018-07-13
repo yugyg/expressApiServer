@@ -7,6 +7,8 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import java.nio.charset.Charset;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yugyg.express.KdniaoExpressApi;
+import com.yugyg.message.ExpressRequest;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -27,7 +29,6 @@ import io.netty.util.AsciiString;
  */
 public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
-
 	private static final AsciiString CONTENT_TYPE = AsciiString.cached("Content-Type");
 	private static final AsciiString CONTENT_LENGTH = AsciiString.cached("Content-Length");
 	private static final AsciiString CONNECTION = AsciiString.cached("Connection");
@@ -38,10 +39,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 		ctx.flush();
 	}
 
-	/**
-	 * 接口名称和消息体的风格符号: 例如： "wp_outer_bill_pay_query_response": {"code":"000000"}
-	 */
-	private static final String separatorchars = ":";
+
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
@@ -55,7 +53,17 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			// 把字节序按照GBK格式 转换成字符串
 			String postBody = new String(cttBytes, Charset.forName("GBK"));
 
+			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
 			
+			
+			//执行策略
+			
+			//选择具体公司
+			
+			String expCode = request.getExpCode();
+			String expNo = request.getExpNo();
+			
+			KdniaoExpressApi.traceExpNo(expCode, expNo);
 		}
 	}
 
@@ -65,12 +73,11 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 	 * @param ctx
 	 * @param msg
 	 */
-	public static void writeAndClose(ChannelHandlerContext ctx, Object msg) 
-	{
-		//把对象Object 转换成json字符串
+	public static void writeAndClose(ChannelHandlerContext ctx, Object msg) {
+		// 把对象Object 转换成json字符串
 		String jsonString = JSONObject.toJSONString(msg);
-		//把json字符串 转换成二进制字节码
-		byte[] content =jsonString.getBytes(Charset.forName("GBK"));
+		// 把json字符串 转换成二进制字节码
+		byte[] content = jsonString.getBytes(Charset.forName("GBK"));
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(content));
 		response.headers().set(CONTENT_TYPE, "application/json");
 		response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
