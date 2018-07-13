@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import com.alibaba.fastjson.JSONObject;
 import com.yugyg.express.KdniaoExpressApi;
 import com.yugyg.message.ExpressRequest;
+import com.yugyg.message.ExpressResponse;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -51,7 +52,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
 
 			// 把字节序按照GBK格式 转换成字符串
-			String postBody = new String(cttBytes, Charset.forName("GBK"));
+			String postBody = new String(cttBytes, Charset.forName("utf-8"));
 
 			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
 			
@@ -63,7 +64,10 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			String expCode = request.getExpCode();
 			String expNo = request.getExpNo();
 			
-			KdniaoExpressApi.traceExpNo(expCode, expNo);
+			//最终策略选择
+			ExpressResponse response = KdniaoExpressApi.traceExpNo(expCode, expNo);
+			String jsonStr = JSONObject.toJSONString(response);
+			writeAndClose(ctx, jsonStr);
 		}
 	}
 
