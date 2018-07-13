@@ -12,7 +12,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.BufferedSink;
 
-public class Test {
+public class KdiniaoTest {
 
 	public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("application/json;charset=utf-8");
 
@@ -49,6 +49,6 @@ public class Test {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new Test().run();
+		new KdiniaoTest().run();
 	}
 }

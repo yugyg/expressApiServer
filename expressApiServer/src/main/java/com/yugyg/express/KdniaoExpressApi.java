@@ -13,7 +13,7 @@ import com.yugyg.express.impl.kdniao.KdniaoMessage;
 import com.yugyg.message.ExpressInfo;
 import com.yugyg.message.ExpressResponse;
 
-public class KdniaoExpressApi {
+public class KdniaoExpressApi  implements ExpressApi{
 
 	private static final Logger logger = LoggerFactory.getLogger(KdniaoExpressApi.class);
 
@@ -23,7 +23,7 @@ public class KdniaoExpressApi {
 	 * @param expCode
 	 * @return
 	 */
-	private static String expCodeConvert(String expCode) {
+	public String expCodeConvert(String expCode) {
 		return expCode;
 	}
 
@@ -65,7 +65,7 @@ public class KdniaoExpressApi {
 	 * @param expNo
 	 * @return
 	 */
-	public static ExpressResponse traceExpNo(String expCode, String expNo) {
+	public  ExpressResponse traceExpNo(String expCode, String expNo) {
 
 		// 转换公司编码
 		String kdnioExpCode = expCodeConvert(expCode);

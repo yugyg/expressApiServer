@@ -20,7 +20,7 @@ public class ExpressApiCenter {
 			String expNo = request.getExpNo();
 			//选择具体公司
 			//最终策略选择
-			ExpressResponse response = KdniaoExpressApi.traceExpNo(expCode, expNo);
+			ExpressResponse response = new KdniaoExpressApi().traceExpNo(expCode, expNo);
 			return response;
 	  }
 }
