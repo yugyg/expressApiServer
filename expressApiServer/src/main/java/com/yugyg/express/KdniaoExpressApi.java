@@ -54,6 +54,7 @@ public class KdniaoExpressApi {
 			info.setRemark(kdniaoInfo.getRemark());
 			infos.add(info);
 		}
+		reponse.setTraces(infos);
 		return reponse;
 	}
 

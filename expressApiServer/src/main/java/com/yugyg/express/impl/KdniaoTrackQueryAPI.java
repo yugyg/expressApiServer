@@ -174,7 +174,6 @@ public class KdniaoTrackQueryAPI {
 		        	  param.append(entry.getValue());		        	  
 		        	  //System.out.println(entry.getKey()+":"+entry.getValue());
 		          }
-		          System.out.println("<<<<<<<<<<<<HTTP  request param:>>>>>>>>>>>>>>>>>>"+param.toString());
 		          out.write(param.toString());
             }
             // flush输出流的缓冲

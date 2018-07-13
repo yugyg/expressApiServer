@@ -3,6 +3,9 @@ package com.yugyg.httpserver;
 
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.yugyg.util.ConfigUtil;
 import com.yugyg.util.Constants;
 
@@ -21,6 +24,8 @@ import io.netty.handler.logging.LoggingHandler;
  */
 public final class HttpServer {
 
+	private static final Logger logger =LoggerFactory.getLogger(HttpServer.class);
+	
 	public static void main(String[] args) throws Exception {
 
 		// Configure the server.
@@ -34,7 +39,7 @@ public final class HttpServer {
 
 			int port = ConfigUtil.getIntConfigProperties(Constants.PORT);
 			Channel ch = b.bind(port).sync().channel();
-
+            logger.info("http server start  success ,bind port:<{}>",port);
 			ch.closeFuture().sync();
 		} finally {
 			bossGroup.shutdownGracefully();

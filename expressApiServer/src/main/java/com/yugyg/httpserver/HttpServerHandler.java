@@ -7,6 +7,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import java.nio.charset.Charset;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yugyg.ExpressApiCenter;
 import com.yugyg.express.KdniaoExpressApi;
 import com.yugyg.message.ExpressRequest;
 import com.yugyg.message.ExpressResponse;
@@ -55,19 +56,10 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 			String postBody = new String(cttBytes, Charset.forName("utf-8"));
 
 			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
-			
-			
 			//执行策略
+			ExpressResponse response = ExpressApiCenter.traceExpress(request);
 			
-			//选择具体公司
-			
-			String expCode = request.getExpCode();
-			String expNo = request.getExpNo();
-			
-			//最终策略选择
-			ExpressResponse response = KdniaoExpressApi.traceExpNo(expCode, expNo);
-			String jsonStr = JSONObject.toJSONString(response);
-			writeAndClose(ctx, jsonStr);
+			writeAndClose(ctx, JSONObject.toJSONString(response));
 		}
 	}
 
@@ -81,7 +73,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 		// 把对象Object 转换成json字符串
 		String jsonString = JSONObject.toJSONString(msg);
 		// 把json字符串 转换成二进制字节码
-		byte[] content = jsonString.getBytes(Charset.forName("GBK"));
+		byte[] content = jsonString.getBytes(Charset.forName("utf-8"));
 		FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(content));
 		response.headers().set(CONTENT_TYPE, "application/json");
 		response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
