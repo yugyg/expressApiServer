@@ -11,6 +11,9 @@ import com.typesafe.config.ConfigFactory;
  */
 public class ConfigUtil {
 
+	private static final String redisIp = "redisIp";
+	private static final String redisPort = "redisPort";
+
 	private static Config conf;
 
 	static {
@@ -23,6 +26,14 @@ public class ConfigUtil {
 
 	public static int getIntConfigProperties(String name) {
 		return conf.getInt(name);
+	}
+
+	public static String getRedisIp() {
+		return conf.getString(redisIp);
+	}
+
+	public static int getRedisPort() {
+		return conf.getInt(redisPort);
 	}
 
 }

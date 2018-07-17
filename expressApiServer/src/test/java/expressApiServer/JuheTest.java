@@ -2,8 +2,6 @@ package expressApiServer;
 
 import java.io.IOException;
 
-import javax.swing.JEditorPane;
-
 import com.alibaba.fastjson.JSONObject;
 import com.yugyg.express.impl.juhe.JuheMessage;
 
