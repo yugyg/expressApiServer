@@ -9,7 +9,7 @@ public class JuheMessage {
 
 	private JuheInnerMessage result;
 
-	class JuheInnerMessage {
+	public class JuheInnerMessage {
 		private String company;
 		private String com;
 		private String no;

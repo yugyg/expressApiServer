@@ -10,7 +10,11 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.HashMap;
-import java.util.Map; 
+import java.util.Map;
+
+import com.alibaba.fastjson.JSONArray;
+import com.yugyg.util.Constants;
+import com.yugyg.util.ExcelUtil; 
 
 /**
  *
@@ -76,7 +80,19 @@ public class KdniaoTrackQueryAPI {
 		
 		return result;
 	}
- 
+	
+	/***
+	 * 	获得快递鸟快递的公司编码
+	 * @param expCode
+	 * @param expNo
+	 * @return
+	 * @throws Exception
+	 */
+	public JSONArray getCompineCode(){
+		return ExcelUtil.getCompanyCode(Constants.kdniao);
+	}
+	
+	
 	/**
      * MD5加密
      * @param str 内容       

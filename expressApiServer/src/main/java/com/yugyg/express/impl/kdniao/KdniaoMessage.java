@@ -10,6 +10,7 @@ public class KdniaoMessage {
 	private String State;
 	private String EBusinessID;
 	private String Success;
+	private String reason;
 
 	private List<KdniaoInfo> Traces = new ArrayList<>();
 
@@ -61,10 +62,19 @@ public class KdniaoMessage {
 		Traces = traces;
 	}
 
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	@Override
 	public String toString() {
 		return "KdniaoMessage [LogisticCode=" + LogisticCode + ", ShipperCode=" + ShipperCode + ", State=" + State
-				+ ", EBusinessID=" + EBusinessID + ", Success=" + Success + ", Traces=" + Traces + "]";
+				+ ", EBusinessID=" + EBusinessID + ", Success=" + Success + ", reason=" + reason + ", Traces=" + Traces
+				+ "]";
 	}
 
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.yugyg.util.ConfigUtil;
 import com.yugyg.util.Constants;
+import com.yugyg.util.RedisUtil;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -32,6 +33,12 @@ public final class HttpServer {
 		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
+			//设置快递鸟剩余次数
+			String kdniaotimes = RedisUtil.getJedis().get("kdniaotimes");
+			if (kdniaotimes == "" || kdniaotimes == null) {
+				RedisUtil.getJedis().set("kdniaotimes","2000");
+			}
+			
 			ServerBootstrap b = new ServerBootstrap();
 			b.option(ChannelOption.SO_BACKLOG, 1024);
 			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)

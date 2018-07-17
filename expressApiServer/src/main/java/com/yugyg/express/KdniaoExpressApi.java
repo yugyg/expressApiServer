@@ -1,11 +1,13 @@
 package com.yugyg.express;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yugyg.express.impl.KdniaoTrackQueryAPI;
 import com.yugyg.express.impl.kdniao.KdniaoInfo;
@@ -24,9 +26,19 @@ public class KdniaoExpressApi  implements ExpressApi{
 	 * @return
 	 */
 	public String expCodeConvert(String expCode) {
+		KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
+		JSONArray list = api.getCompineCode();
+		if(list.size()>0){
+			for (Iterator<Object> tor=list.iterator();tor.hasNext();) {
+				JSONObject job = (JSONObject)tor.next();
+				if(job.get("com").equals(expCode)){
+					expCode = job.get("cn").toString();
+					break;
+				}
+			}
+		}
 		return expCode;
 	}
-
 	/**
 	 * 把快递鸟信息转换成标准的快递接口信息
 	 * 
@@ -36,14 +48,15 @@ public class KdniaoExpressApi  implements ExpressApi{
 	private static ExpressResponse convertExpressReponse(KdniaoMessage kdinaoMessage) {
 		ExpressResponse reponse = new ExpressResponse();
 		// 快递公司编码
-		reponse.setExpCode(kdinaoMessage.getLogisticCode());
+		reponse.setExpCode(kdinaoMessage.getShipperCode());
 		// 物流单号
-		reponse.setExpNo(kdinaoMessage.getShipperCode());
+		reponse.setExpNo(kdinaoMessage.getLogisticCode());
 		// 查询状态
 		reponse.setStatus(kdinaoMessage.getSuccess());
 		// 物流状态
 		reponse.setExpStatus(kdinaoMessage.getState());
-
+		//查询失败原因
+		reponse.setMsg(kdinaoMessage.getReason());
 		// 物流详细信息
 		List<KdniaoInfo> traces = kdinaoMessage.getTraces();
 		List<ExpressInfo> infos = new ArrayList<>();

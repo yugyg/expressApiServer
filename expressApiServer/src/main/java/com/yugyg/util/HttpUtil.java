@@ -49,7 +49,7 @@ public class HttpUtil {
 			Response response = client.newCall(request).execute();
 			return response.body().toString();
 		} catch (Exception e) {
-			logger.debug(" 网络调用异常httpExecute : {}", e);
+			logger.debug("网络调用异常httpExecute : {}", e);
 		}
 		return null;
 	}

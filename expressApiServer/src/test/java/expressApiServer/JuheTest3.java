@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yugyg.message.ExpressRequest;
-import com.yugyg.util.RedisUtil;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -13,7 +12,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.BufferedSink;
 
-public class KdiniaoTest {
+public class JuheTest3 {
 
 	public static final MediaType MEDIA_TYPE_MARKDOWN = MediaType.parse("application/json;charset=utf-8");
 
@@ -29,14 +28,12 @@ public class KdiniaoTest {
 			@Override
 			public void writeTo(BufferedSink sink) throws IOException {
 				ExpressRequest request =new ExpressRequest();
-				request.setExpCode("debangwuliu");
-				request.setExpNo("9950207155");
+				request.setExpCode("sf");
+				request.setExpNo("821519266954");
 				sink.writeUtf8(JSONObject.toJSONString(request));
 				
 			}
 
-		
-			
 		};
 
 		Request request = new Request.Builder().url("http://localhost:8181").post(requestBody).build();
@@ -44,12 +41,11 @@ public class KdiniaoTest {
 		try (Response response = client.newCall(request).execute()) {
 			if (!response.isSuccessful())
 				throw new IOException("Unexpected code " + response);
-
 			System.out.println(response.body().string());
 		}
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new KdiniaoTest().run();
+		new JuheTest3().run();
 	}
 }
