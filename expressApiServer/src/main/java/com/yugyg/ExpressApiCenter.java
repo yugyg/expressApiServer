@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.yugyg.express.JuheExpressApi;
 import com.yugyg.express.KdniaoExpressApi;
 import com.yugyg.message.ExpressRequest;
@@ -15,6 +16,8 @@ import com.yugyg.util.Constants;
 import com.yugyg.util.ExcelUtil;
 import com.yugyg.util.HttpUtil;
 import com.yugyg.util.RedisUtil;
+
+import ch.qos.logback.core.joran.conditional.IfAction;
 /**
  *  物流网关中心
  * @author sunning
@@ -33,13 +36,16 @@ public class ExpressApiCenter {
 			String expNo = request.getExpNo();
 			//选择具体公司
 			//最终策略选择
-			System.out.println("expCode--"+expCode);
-			System.out.println("expNo--"+expNo);
+			logger.info("expCode--"+expCode);
+			logger.info("expNo--"+expNo);
 			ExpressResponse response = new ExpressResponse();
 			response.setExpStatus("201");
 			response.setExpCode(expCode);
 			response.setExpNo(expNo);
 			response.setMsg("查询失败");
+			if (expCode == "" || expCode == null || expNo == "" || expNo == null ) {
+				return response;
+			}
 			boolean isfind = false;
 			String kdniaotimes = RedisUtil.getJedis().get("kdniaotimes");
 			boolean kdniao = false;

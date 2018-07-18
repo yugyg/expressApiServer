@@ -17,7 +17,7 @@ import com.yugyg.message.ExpressResponse;
 
 public class JuheExpressApi implements ExpressApi {
 	
-	private static final Logger logger = LoggerFactory.getLogger(KdniaoExpressApi.class);
+	private static final Logger logger = LoggerFactory.getLogger(JuheExpressApi.class);
 	
 	@Override
 	public String expCodeConvert(String expCode) {
