@@ -15,6 +15,33 @@ public class RedisUtil {
 	public static Jedis getJedis() {
 		return pool.getResource();
 	}
-
+	
+	public static String  getJedisPara(String key) {
+		Jedis jedis = null;
+		String para = "";
+		try {
+			jedis = getJedis();
+			para = jedis.get(key);
+		} finally {
+			 if (jedis != null) {
+               jedis.close();
+             }
+		}
+		return para;
+	}
+	
+	public static String  setJedisPara(String key,String value) {
+		Jedis jedis = null;
+		String para = "";
+		try {
+			jedis = getJedis();
+			para = jedis.set(key,value);
+		} finally {
+			if (jedis != null) {
+				jedis.close();
+			}
+		}
+		return para;
+	}
 	
 }

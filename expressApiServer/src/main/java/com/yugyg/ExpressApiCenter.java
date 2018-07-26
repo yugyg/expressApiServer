@@ -47,7 +47,7 @@ public class ExpressApiCenter {
 				return response;
 			}
 			boolean isfind = false;
-			String kdniaotimes = RedisUtil.getJedis().get("kdniaotimes");
+			String kdniaotimes = RedisUtil.getJedisPara("kdniaotimes");
 			boolean kdniao = false;
 			if (kdniaotimes != "" && kdniaotimes != null && Long.parseLong(kdniaotimes) > 0) {
 				//快递鸟
@@ -60,7 +60,7 @@ public class ExpressApiCenter {
 							kdniao = true;
 							isfind = true;
 							response = new KdniaoExpressApi().traceExpNo(expCode, expNo);
-							RedisUtil.getJedis().set("kdniaotimes",(Long.valueOf(kdniaotimes)-1)+"");
+							RedisUtil.setJedisPara("kdniaotimes",(Long.valueOf(kdniaotimes)-1)+"");
 							logger.info("kdniao rest time is "+ (Long.valueOf(kdniaotimes)-1)+"");
 							break;
 						}

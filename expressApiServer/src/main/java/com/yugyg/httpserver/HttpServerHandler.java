@@ -4,11 +4,11 @@ package com.yugyg.httpserver;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yugyg.ExpressApiCenter;
-import com.yugyg.express.KdniaoExpressApi;
 import com.yugyg.message.ExpressRequest;
 import com.yugyg.message.ExpressResponse;
 
@@ -48,18 +48,23 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest req = (FullHttpRequest) msg;
 
-			ByteBuf cttByteBuf = req.content();
+//			ByteBuf cttByteBuf = req.content();
 
-			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
+//			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
 
 			// 把字节序按照GBK格式 转换成字符串
-			String postBody = new String(cttBytes, Charset.forName("utf-8"));
+//			String postBody = new String(cttBytes, Charset.forName("utf-8"));
 
-			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
-			//执行策略
-			ExpressResponse response = ExpressApiCenter.traceExpress(request);
-			
-			writeAndClose(ctx, JSONObject.toJSONString(response));
+//			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
+			try {
+				@SuppressWarnings("deprecation")
+				ExpressRequest request = (ExpressRequest) JSONObject.parseObject(URLDecoder.decode(req.getUri().replace("/?", "")), ExpressRequest.class);
+				//执行策略
+				ExpressResponse response = ExpressApiCenter.traceExpress(request);
+				
+				writeAndClose(ctx, JSONObject.toJSONString(response));
+			} catch (Exception e) {
+			}
 		}
 	}
 

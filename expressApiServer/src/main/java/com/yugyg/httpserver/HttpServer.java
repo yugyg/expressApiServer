@@ -34,9 +34,9 @@ public final class HttpServer {
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
 			//设置快递鸟剩余次数
-			String kdniaotimes = RedisUtil.getJedis().get("kdniaotimes");
+			String kdniaotimes = RedisUtil.getJedisPara("kdniaotimes");
 			if (kdniaotimes == "" || kdniaotimes == null) {
-				RedisUtil.getJedis().set("kdniaotimes","2000");
+				RedisUtil.setJedisPara("kdniaotimes","2000");
 			}
 			
 			ServerBootstrap b = new ServerBootstrap();
