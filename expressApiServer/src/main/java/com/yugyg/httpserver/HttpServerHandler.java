@@ -48,23 +48,19 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest req = (FullHttpRequest) msg;
 
-//			ByteBuf cttByteBuf = req.content();
+			ByteBuf cttByteBuf = req.content();
 
-//			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
+			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
 
 			// 把字节序按照GBK格式 转换成字符串
-//			String postBody = new String(cttBytes, Charset.forName("utf-8"));
+			String postBody = new String(cttBytes, Charset.forName("utf-8"));
 
-//			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
-			try {
-				@SuppressWarnings("deprecation")
-				ExpressRequest request = (ExpressRequest) JSONObject.parseObject(URLDecoder.decode(req.getUri().replace("/?", "")), ExpressRequest.class);
-				//执行策略
-				ExpressResponse response = ExpressApiCenter.traceExpress(request);
-				
-				writeAndClose(ctx, JSONObject.toJSONString(response));
-			} catch (Exception e) {
-			}
+			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
+			
+			//执行策略
+			ExpressResponse response = ExpressApiCenter.traceExpress(request);
+			
+			writeAndClose(ctx, JSONObject.toJSONString(response));
 		}
 	}
 
