@@ -3,12 +3,15 @@ package com.yugyg.httpserver;
 
 
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.yugyg.util.ConfigUtil;
 import com.yugyg.util.Constants;
 import com.yugyg.util.RedisUtil;
+import com.yugyg.util.Util;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -36,7 +39,8 @@ public final class HttpServer {
 			//设置快递鸟剩余次数
 			String kdniaotimes = RedisUtil.getJedisPara("kdniaotimes");
 			if (kdniaotimes == "" || kdniaotimes == null) {
-				RedisUtil.setJedisPara("kdniaotimes","2000");
+				RedisUtil.setJedisPara("kdniaotimes","3000");
+				RedisUtil.setJedisPara("kdniaotimesdate",Util.dateFormat(new Date(), "yyyy-MM-dd"));
 			}
 			
 			ServerBootstrap b = new ServerBootstrap();

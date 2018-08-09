@@ -76,13 +76,17 @@
 			<artifactId>jedis</artifactId>
 			<version>2.9.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.6.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<!-- 编译插件 -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
@@ -93,7 +97,7 @@
 						<encoding>UTF-8</encoding>
 					</compilerArguments>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<!-- 打包插件 -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

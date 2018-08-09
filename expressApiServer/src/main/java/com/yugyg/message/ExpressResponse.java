@@ -12,7 +12,7 @@ public class ExpressResponse {
 
 	private String expCode;// 公司编码
 	private String expNo;// 物流单号
-	private String status;// 查询状态
+	private String status;// 查询状态 true/false
 	private String msg;// 消息描述
 	private String expStatus;// 物流状态
 

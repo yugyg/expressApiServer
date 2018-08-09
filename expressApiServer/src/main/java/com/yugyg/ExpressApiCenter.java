@@ -1,5 +1,6 @@
 package com.yugyg;
 
+import java.util.Date;
 import java.util.Iterator;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import com.yugyg.util.Constants;
 import com.yugyg.util.ExcelUtil;
 import com.yugyg.util.HttpUtil;
 import com.yugyg.util.RedisUtil;
+import com.yugyg.util.Util;
 
 import ch.qos.logback.core.joran.conditional.IfAction;
 /**
@@ -47,6 +49,11 @@ public class ExpressApiCenter {
 				return response;
 			}
 			boolean isfind = false;
+			String kdniaotimesdate = RedisUtil.getJedisPara("kdniaotimesdate");
+			if (!Util.dateFormat(new Date(), "yyyy-MM-dd").equals(kdniaotimesdate)) {
+				RedisUtil.setJedisPara("kdniaotimesdate",Util.dateFormat(new Date(), "yyyy-MM-dd"));
+				RedisUtil.setJedisPara("kdniaotimes","3000");
+			}
 			String kdniaotimes = RedisUtil.getJedisPara("kdniaotimes");
 			boolean kdniao = false;
 			if (kdniaotimes != "" && kdniaotimes != null && Long.parseLong(kdniaotimes) > 0) {
@@ -62,6 +69,9 @@ public class ExpressApiCenter {
 							response = new KdniaoExpressApi().traceExpNo(expCode, expNo);
 							RedisUtil.setJedisPara("kdniaotimes",(Long.valueOf(kdniaotimes)-1)+"");
 							logger.info("kdniao rest time is "+ (Long.valueOf(kdniaotimes)-1)+"");
+							if("false".equals(response.getStatus())) {
+								isfind = false;
+							}
 							break;
 						}
 					}

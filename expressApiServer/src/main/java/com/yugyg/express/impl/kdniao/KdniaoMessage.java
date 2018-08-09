@@ -7,9 +7,9 @@ public class KdniaoMessage {
 
 	private String LogisticCode;
 	private String ShipperCode;
-	private String State;
+	private String State;//2-在途中,3-签收,4-问题件
 	private String EBusinessID;
-	private String Success;
+	private String Success;//成功与否 Bool
 	private String reason;
 
 	private List<KdniaoInfo> Traces = new ArrayList<>();

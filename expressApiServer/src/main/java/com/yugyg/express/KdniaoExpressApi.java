@@ -53,8 +53,24 @@ public class KdniaoExpressApi  implements ExpressApi{
 		reponse.setExpNo(kdinaoMessage.getLogisticCode());
 		// 查询状态
 		reponse.setStatus(kdinaoMessage.getSuccess());
-		// 物流状态
-		reponse.setExpStatus(kdinaoMessage.getState());
+		// 物流状态 2-在途中,3-签收,4-问题件
+		String gStatus = kdinaoMessage.getState();
+		String status = "";
+		switch (gStatus) {
+		case "2":
+			status = "在途中";
+			break;
+		case "3":
+			status = "签收";
+			break;
+		case "4":
+			status = "问题件";
+			break;
+		default:
+			status = "未知";
+			break;
+		}
+		reponse.setExpStatus(status);
 		//查询失败原因
 		reponse.setMsg(kdinaoMessage.getReason());
 		// 物流详细信息

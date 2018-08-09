@@ -36,7 +36,7 @@ public class JuheTrackQueryAPI {
 	//电商ID
 //	private String EBusinessID="1361487";
 //	电商加密私钥，聚合提供，注意保管，不要泄漏
-	private String AppKey="de6614adae3b4b3237b9d440121a2cf2";
+	private String AppKey="84802cf0618f6f7dbedeee949bcaaaa1";
 	//请求url
 	private String ReqURL="http://v.juhe.cn/exp/index";	
  
