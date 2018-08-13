@@ -41,10 +41,10 @@ public class ExpressApiCenter {
 			logger.info("expCode--"+expCode);
 			logger.info("expNo--"+expNo);
 			ExpressResponse response = new ExpressResponse();
-			response.setExpStatus("201");
-			response.setExpCode(expCode);
-			response.setExpNo(expNo);
-			response.setMsg("查询失败");
+			response.setStatus("201");
+			response.setCom(expCode);
+			response.setNu(expNo);
+			response.setMessage("查询失败");
 			if (expCode == "" || expCode == null || expNo == "" || expNo == null ) {
 				return response;
 			}
@@ -69,8 +69,8 @@ public class ExpressApiCenter {
 							response = new KdniaoExpressApi().traceExpNo(expCode, expNo);
 							RedisUtil.setJedisPara("kdniaotimes",(Long.valueOf(kdniaotimes)-1)+"");
 							logger.info("kdniao rest time is "+ (Long.valueOf(kdniaotimes)-1)+"");
-							if("false".equals(response.getStatus())) {
-								isfind = false;
+							if("false".equals(response.getStatus()) || "unknown".equals(response.getState())) {
+								kdniao = false;
 							}
 							break;
 						}
@@ -93,8 +93,8 @@ public class ExpressApiCenter {
 				}
 			}
 			if (!isfind) {
-				response.setMsg("不支持该物流");
-				response.setExpStatus("202");
+				response.setMessage("不支持该物流");
+				response.setStatus("202");
 			}
 			logger.info(response.toString());
 			return response;

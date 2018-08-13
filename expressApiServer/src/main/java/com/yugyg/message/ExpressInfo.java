@@ -2,37 +2,33 @@ package com.yugyg.message;
 
 public class ExpressInfo {
 
-	private String expTime; //时间点
-	private String expStation;//地点
-	private String remark;//备注
-
-	public String getExpTime() {
-		return expTime;
+	private String time; //时间点
+	private String ftime; //时间点
+	private String context;//地点
+	private String location;//备注
+	public String getTime() {
+		return time;
 	}
-
-	public void setExpTime(String expTime) {
-		this.expTime = expTime;
+	public void setTime(String time) {
+		this.time = time;
 	}
-
-	public String getExpStation() {
-		return expStation;
+	public String getFtime() {
+		return ftime;
 	}
-
-	public void setExpStation(String expStation) {
-		this.expStation = expStation;
+	public void setFtime(String ftime) {
+		this.ftime = ftime;
 	}
-
-	public String getRemark() {
-		return remark;
+	public String getContext() {
+		return context;
 	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setContext(String context) {
+		this.context = context;
 	}
-
-	@Override
-	public String toString() {
-		return "ExpressInfo [expTime=" + expTime + ", expStation=" + expStation + ", remark=" + remark + "]";
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 }

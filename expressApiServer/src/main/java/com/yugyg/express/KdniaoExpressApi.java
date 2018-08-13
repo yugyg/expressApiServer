@@ -48,9 +48,9 @@ public class KdniaoExpressApi  implements ExpressApi{
 	private static ExpressResponse convertExpressReponse(KdniaoMessage kdinaoMessage) {
 		ExpressResponse reponse = new ExpressResponse();
 		// 快递公司编码
-		reponse.setExpCode(kdinaoMessage.getShipperCode());
+		reponse.setCom(kdinaoMessage.getShipperCode());
 		// 物流单号
-		reponse.setExpNo(kdinaoMessage.getLogisticCode());
+		reponse.setNu(kdinaoMessage.getLogisticCode());
 		// 查询状态
 		reponse.setStatus(kdinaoMessage.getSuccess());
 		// 物流状态 2-在途中,3-签收,4-问题件
@@ -67,23 +67,24 @@ public class KdniaoExpressApi  implements ExpressApi{
 			status = "问题件";
 			break;
 		default:
-			status = "未知";
+			status = "unknown";
 			break;
 		}
-		reponse.setExpStatus(status);
+		reponse.setState(status);
 		//查询失败原因
-		reponse.setMsg(kdinaoMessage.getReason());
+		reponse.setMessage(kdinaoMessage.getReason());
 		// 物流详细信息
 		List<KdniaoInfo> traces = kdinaoMessage.getTraces();
 		List<ExpressInfo> infos = new ArrayList<>();
 		for (KdniaoInfo kdniaoInfo : traces) {
 			ExpressInfo info = new ExpressInfo();
-			info.setExpStation(kdniaoInfo.getAcceptStation());
-			info.setExpTime(info.getExpTime());
-			info.setRemark(kdniaoInfo.getRemark());
+			info.setContext(kdniaoInfo.getAcceptStation());
+			info.setFtime(kdniaoInfo.getAcceptTime());
+			info.setTime(kdniaoInfo.getAcceptTime());
+			info.setLocation(kdniaoInfo.getRemark());
 			infos.add(info);
 		}
-		reponse.setTraces(infos);
+		reponse.setData(infos);
 		return reponse;
 	}
 

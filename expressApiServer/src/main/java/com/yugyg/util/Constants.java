@@ -13,6 +13,6 @@ public interface Constants {
 	/**
 	 * 	快递文件路径
 	 */
-	public static final String kdniao ="src/main/java/com/yugyg/express/impl/kdniao.xlsx";
-	public static final String juhe ="src/main/java/com/yugyg/express/impl/juhe.xlsx";
+	public static final String kdniao ="kdniao.xlsx";
+	public static final String juhe ="juhe.xlsx";
 }

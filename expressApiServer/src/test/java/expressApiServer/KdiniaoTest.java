@@ -29,17 +29,15 @@ public class KdiniaoTest {
 			@Override
 			public void writeTo(BufferedSink sink) throws IOException {
 				ExpressRequest request =new ExpressRequest();
-				request.setExpCode("debangwuliu");
-				request.setExpNo("9950207155");
+				request.setExpCode("tiantian");
+				request.setExpNo("668611128225");
 				sink.writeUtf8(JSONObject.toJSONString(request));
 				
 			}
 
-		
-			
 		};
 
-		Request request = new Request.Builder().url("http://localhost:8181").post(requestBody).build();
+		Request request = new Request.Builder().url("http://localhost:8902").post(requestBody).build();
 
 		try (Response response = client.newCall(request).execute()) {
 			if (!response.isSuccessful())

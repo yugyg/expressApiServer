@@ -4,7 +4,6 @@ package com.yugyg.httpserver;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
-import java.net.URLDecoder;
 import java.nio.charset.Charset;
 
 import com.alibaba.fastjson.JSONObject;
@@ -29,6 +28,7 @@ import io.netty.util.AsciiString;
  * @author sunning
  *
  */
+
 public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
 	private static final AsciiString CONTENT_TYPE = AsciiString.cached("Content-Type");
@@ -48,21 +48,21 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest req = (FullHttpRequest) msg;
 
-//			ByteBuf cttByteBuf = req.content();
+			ByteBuf cttByteBuf = req.content();
 
-//			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
+			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
 
-			// 把字节序按照GBK格式 转换成字符串
-//			String postBody = new String(cttBytes, Charset.forName("utf-8"));
-
-//			ExpressRequest request = (ExpressRequest) JSONObject.parseObject(postBody, ExpressRequest.class);
+			// 把字节序按照GBK格式 转换成字符串 //expCode=1&expNo=2
+			String postBody = new String(cttBytes, Charset.forName("utf-8"));
+			
+			ExpressRequest request = new ExpressRequest();
 			try {
-				@SuppressWarnings("deprecation")
-				ExpressRequest request = (ExpressRequest) JSONObject.parseObject(URLDecoder.decode(req.getUri().replace("/?", "")), ExpressRequest.class);
+				request.setExpCode(postBody.split("&")[0].split("=")[1]);
+				request.setExpNo(postBody.split("&")[1].split("=")[1]);
 				//执行策略
 				ExpressResponse response = ExpressApiCenter.traceExpress(request);
 				
-				writeAndClose(ctx, JSONObject.toJSONString(response));
+				writeAndClose(ctx, JSONObject.toJSON(response));
 			} catch (Exception e) {
 			}
 		}

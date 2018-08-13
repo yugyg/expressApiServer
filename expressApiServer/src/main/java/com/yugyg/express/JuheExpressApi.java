@@ -65,27 +65,28 @@ public class JuheExpressApi implements ExpressApi {
 		ExpressResponse reponse = new ExpressResponse();
 		// 查询状态
 		if("200".equals(juheMessage.getResultcode())) {
-			reponse.setStatus("true");
+			reponse.setStatus("200");
 			// 快递公司编码
-			reponse.setExpCode(juheMessage.getResult().getCom());
+			reponse.setCom(juheMessage.getResult().getCom());
 			// 物流单号
-			reponse.setExpNo(juheMessage.getResult().getNo());
+			reponse.setNu(juheMessage.getResult().getNo());
 			// 物流状态
-			reponse.setExpStatus("1".equals(juheMessage.getResult().getStatus())?"已签收":"包裹正在路上");
+			reponse.setState("1".equals(juheMessage.getResult().getStatus())?"已签收":"包裹正在路上");
 			// 物流详细信息
 			List<JuheInfo> traces = juheMessage.getResult().getList();
 			List<ExpressInfo> infos = new ArrayList<>();
 			for (JuheInfo juheInfo : traces) {
 				ExpressInfo info = new ExpressInfo();
-				info.setExpStation(juheInfo.getZone());
-				info.setExpTime(juheInfo.getDatetime());
-				info.setRemark(juheInfo.getRemark());
+				info.setLocation(juheInfo.getZone());
+				info.setFtime(juheInfo.getDatetime());
+				info.setTime(juheInfo.getDatetime());
+				info.setContext(juheInfo.getRemark());
 				infos.add(info);
 			}
-			reponse.setTraces(infos);
+			reponse.setData(infos);
 		}else {
-			reponse.setMsg("查询失败");
-			reponse.setStatus("false");
+			reponse.setMessage("查询失败");
+			reponse.setStatus(juheMessage.getResultcode());
 		}
 		return reponse;
 	}

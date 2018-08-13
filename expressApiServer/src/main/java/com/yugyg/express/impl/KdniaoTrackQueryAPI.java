@@ -37,7 +37,7 @@ public class KdniaoTrackQueryAPI {
 		KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
 		try {
 			//String result = api.getOrderTracesByJson("SF", "821519266954");
-			String result = api.getOrderTracesByJson("ZTO", "214608203021");
+			String result = api.getOrderTracesByJson("HHTT", "668611128225");
 			System.out.println();
 			System.out.println();
 			System.out.println();

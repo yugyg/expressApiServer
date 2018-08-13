@@ -11,10 +11,6 @@
 	<name>expressApiServer</name>
 	<url>http://maven.apache.org</url>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
 	<dependencies>
 		<!-- https://github.com/lightbend/config -->
 		<dependency>
@@ -76,10 +72,16 @@
 			<artifactId>jedis</artifactId>
 			<version>2.9.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
 			<version>3.6.1</version>
+		</dependency> -->
+        <!-- https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter -->
+		<dependency>
+		    <groupId>com.thetransactioncompany</groupId>
+		    <artifactId>cors-filter</artifactId>
+		    <version>2.6</version>
 		</dependency>
 	</dependencies>
 
@@ -89,11 +91,11 @@
 			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
+				<version>2.6.1</version>
 				<configuration>
 					<compilerArguments>
-						<source>1.8</source>
-						<target>1.8</target>
+						<source>${jdk-version}</source>
+						<target>${jdk-version}</target>
 						<encoding>UTF-8</encoding>
 					</compilerArguments>
 				</configuration>

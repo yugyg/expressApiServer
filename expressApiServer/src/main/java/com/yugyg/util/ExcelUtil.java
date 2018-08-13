@@ -9,15 +9,20 @@ import java.io.InputStream;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.monitorjbl.xlsx.StreamingReader;
 
 public class ExcelUtil {
+	private static Logger logger = LoggerFactory.getLogger(ExcelUtil.class);
     public static JSONArray getCompanyCode(String path) {
         JSONArray array = new JSONArray();
-		try (InputStream is = new FileInputStream(new File(path));
+        logger.info(ExcelUtil.class.getClassLoader().getResource(path).toString()+"======================");
+        logger.info(ExcelUtil.class.getClassLoader().getResource(path).toString().replaceFirst("file:", "")+"======================");
+		try (InputStream is = new FileInputStream(new File(ExcelUtil.class.getClassLoader().getResource(path).toString().replaceFirst("file:", "")));
 				Workbook workbook = StreamingReader.builder().open(is);) {
 			Sheet sheet = workbook.getSheetAt(0);
 			while (sheet.rowIterator().hasNext()) {

@@ -10,66 +10,48 @@ import java.util.List;
  */
 public class ExpressResponse {
 
-	private String expCode;// 公司编码
-	private String expNo;// 物流单号
-	private String status;// 查询状态 true/false
-	private String msg;// 消息描述
-	private String expStatus;// 物流状态
-
-	private List<ExpressInfo> traces = new ArrayList<>();
-
-	public String getExpCode() {
-		return expCode;
+	private String com;// 公司编码
+	private String nu;// 物流单号
+	private String status;// 查询状态 200正常
+	private String message;// 消息描述
+	private String state;// 物流状态
+	private List<ExpressInfo> data = new ArrayList<>();
+	public String getCom() {
+		return com;
 	}
-
-	public void setExpCode(String expCode) {
-		this.expCode = expCode;
+	public void setCom(String com) {
+		this.com = com;
 	}
-
-	public String getExpNo() {
-		return expNo;
+	public String getNu() {
+		return nu;
 	}
-
-	public void setExpNo(String expNo) {
-		this.expNo = expNo;
+	public void setNu(String nu) {
+		this.nu = nu;
 	}
-
 	public String getStatus() {
 		return status;
 	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public String getMsg() {
-		return msg;
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public List<ExpressInfo> getData() {
+		return data;
+	}
+	public void setData(List<ExpressInfo> data) {
+		this.data = data;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public String getExpStatus() {
-		return expStatus;
-	}
-
-	public void setExpStatus(String expStatus) {
-		this.expStatus = expStatus;
-	}
-
-	public List<ExpressInfo> getTraces() {
-		return traces;
-	}
-
-	public void setTraces(List<ExpressInfo> traces) {
-		this.traces = traces;
-	}
-
-	@Override
-	public String toString() {
-		return "ExpressResponse [expCode=" + expCode + ", expNo=" + expNo + ", status=" + status + ", msg=" + msg
-				+ ", expStatus=" + expStatus + ", traces=" + traces + "]";
-	}
-
+	
 }
