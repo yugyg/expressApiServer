@@ -14,6 +14,7 @@ import com.yugyg.express.impl.juhe.JuheInfo;
 import com.yugyg.express.impl.juhe.JuheMessage;
 import com.yugyg.message.ExpressInfo;
 import com.yugyg.message.ExpressResponse;
+import com.yugyg.util.Constants;
 
 public class JuheExpressApi implements ExpressApi {
 	
@@ -23,7 +24,13 @@ public class JuheExpressApi implements ExpressApi {
 	public String expCodeConvert(String expCode) {
 		JuheTrackQueryAPI api = new JuheTrackQueryAPI();
 		try {
-			JSONArray list = api.getCompineCode();
+			JSONArray list = null;
+			if (Constants.juheArray == null) {
+				list = api.getCompineCode();
+				Constants.juheArray = list;
+			}else {
+				list = Constants.juheArray;
+			}
 			for (Iterator<Object> tor=list.iterator();tor.hasNext();) {
 				JSONObject job = (JSONObject)tor.next();
 				if(job.get("com").equals(expCode)){

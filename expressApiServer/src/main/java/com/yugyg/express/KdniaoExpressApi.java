@@ -14,6 +14,7 @@ import com.yugyg.express.impl.kdniao.KdniaoInfo;
 import com.yugyg.express.impl.kdniao.KdniaoMessage;
 import com.yugyg.message.ExpressInfo;
 import com.yugyg.message.ExpressResponse;
+import com.yugyg.util.Constants;
 
 public class KdniaoExpressApi  implements ExpressApi{
 
@@ -27,7 +28,13 @@ public class KdniaoExpressApi  implements ExpressApi{
 	 */
 	public String expCodeConvert(String expCode) {
 		KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
-		JSONArray list = api.getCompineCode();
+		JSONArray list = null;
+		if (Constants.kdniaoArray == null) {
+			Constants.kdniaoArray = list;
+			list = api.getCompineCode();
+		}else {
+			list = Constants.kdniaoArray;
+		}
 		if(list.size()>0){
 			for (Iterator<Object> tor=list.iterator();tor.hasNext();) {
 				JSONObject job = (JSONObject)tor.next();
@@ -52,7 +59,7 @@ public class KdniaoExpressApi  implements ExpressApi{
 		// 物流单号
 		reponse.setNu(kdinaoMessage.getLogisticCode());
 		// 查询状态
-		reponse.setStatus(kdinaoMessage.getSuccess());
+		reponse.setStatus("true".equals(kdinaoMessage.getSuccess())?"200":"201");
 		// 物流状态 2-在途中,3-签收,4-问题件
 		String gStatus = kdinaoMessage.getState();
 		String status = "";

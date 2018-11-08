@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.yugyg.express.JuheExpressApi;
 import com.yugyg.express.KdniaoExpressApi;
 import com.yugyg.message.ExpressRequest;
@@ -18,8 +17,6 @@ import com.yugyg.util.ExcelUtil;
 import com.yugyg.util.HttpUtil;
 import com.yugyg.util.RedisUtil;
 import com.yugyg.util.Util;
-
-import ch.qos.logback.core.joran.conditional.IfAction;
 /**
  *  物流网关中心
  * @author sunning
@@ -49,12 +46,19 @@ public class ExpressApiCenter {
 				return response;
 			}
 			boolean isfind = false;
-			String kdniaotimesdate = RedisUtil.getJedisPara("kdniaotimesdate");
-			if (!Util.dateFormat(new Date(), "yyyy-MM-dd").equals(kdniaotimesdate)) {
-				RedisUtil.setJedisPara("kdniaotimesdate",Util.dateFormat(new Date(), "yyyy-MM-dd"));
-				RedisUtil.setJedisPara("kdniaotimes","3000");
+			String kdniaotimesdate = "";
+			String kdniaotimes = "";
+			try {
+				kdniaotimesdate = RedisUtil.getJedisPara("kdniaotimesdate");
+				if (!Util.dateFormat(new Date(), "yyyy-MM-dd").equals(kdniaotimesdate)) {
+					RedisUtil.setJedisPara("kdniaotimesdate",Util.dateFormat(new Date(), "yyyy-MM-dd"));
+					RedisUtil.setJedisPara("kdniaotimes","3000");
+				}
+				kdniaotimes = RedisUtil.getJedisPara("kdniaotimes");
+			} catch (Exception e) {
+				logger.info("redis出错啦啦啦啦啦啦啦啊---"+e.getMessage());
+				kdniaotimes = "1";
 			}
-			String kdniaotimes = RedisUtil.getJedisPara("kdniaotimes");
 			boolean kdniao = false;
 			if (kdniaotimes != "" && kdniaotimes != null && Long.parseLong(kdniaotimes) > 0) {
 				//快递鸟
@@ -67,7 +71,11 @@ public class ExpressApiCenter {
 							kdniao = true;
 							isfind = true;
 							response = new KdniaoExpressApi().traceExpNo(expCode, expNo);
-							RedisUtil.setJedisPara("kdniaotimes",(Long.valueOf(kdniaotimes)-1)+"");
+							try {
+								RedisUtil.setJedisPara("kdniaotimes",(Long.valueOf(kdniaotimes)-1)+"");
+							} catch (Exception e) {
+								logger.info("redis出错啦啦啦啦啦啦啦啊----"+e.getMessage());
+							}
 							logger.info("kdniao rest time is "+ (Long.valueOf(kdniaotimes)-1)+"");
 							if("false".equals(response.getStatus()) || "unknown".equals(response.getState())) {
 								kdniao = false;
