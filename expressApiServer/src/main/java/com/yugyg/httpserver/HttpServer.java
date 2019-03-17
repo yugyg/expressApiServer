@@ -8,6 +8,8 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import com.yugyg.util.ConfigUtil;
 import com.yugyg.util.Constants;
 import com.yugyg.util.RedisUtil;
@@ -36,6 +38,9 @@ public final class HttpServer {
 		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
+		    Config conf = ConfigFactory.load();
+		    logger.info("redisIp======{}",conf.getString("redisIp"));
+		    logger.info("redisIp======{}",conf.getString("redisPort"));
 			//设置快递鸟剩余次数
 			String kdniaotimes = RedisUtil.getJedisPara("kdniaotimes");
 			if (kdniaotimes == "" || kdniaotimes == null) {

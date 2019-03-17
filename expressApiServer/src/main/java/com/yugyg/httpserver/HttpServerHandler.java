@@ -6,10 +6,14 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 import java.nio.charset.Charset;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.alibaba.fastjson.JSONObject;
 import com.yugyg.ExpressApiCenter;
 import com.yugyg.message.ExpressRequest;
 import com.yugyg.message.ExpressResponse;
+import com.yugyg.util.Util;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -30,6 +34,8 @@ import io.netty.util.AsciiString;
  */
 
 public class HttpServerHandler extends ChannelInboundHandlerAdapter {
+    
+    private static final Logger logger = LoggerFactory.getLogger(HttpServerHandler.class);
 
 	private static final AsciiString CONTENT_TYPE = AsciiString.cached("Content-Type");
 	private static final AsciiString CONTENT_LENGTH = AsciiString.cached("Content-Length");
@@ -45,25 +51,38 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
+	    System.out.println(JSONObject.toJSONString(msg));
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest req = (FullHttpRequest) msg;
-
+			// 获取requestbody
 			ByteBuf cttByteBuf = req.content();
-
 			byte[] cttBytes = ByteBufUtil.getBytes(cttByteBuf);
-
+			// 获取uri
+			String uri = req.getUri();
 			// 把字节序按照GBK格式 转换成字符串 //expCode=1&expNo=2
 			String postBody = new String(cttBytes, Charset.forName("utf-8"));
-			
+			System.out.println(postBody);
+			logger.info("请求发送请求体信息====postBody=={}",postBody);
+			if(postBody == null || postBody == "") {
+			    return;
+			}
 			ExpressRequest request = new ExpressRequest();
 			try {
-				request.setExpCode(postBody.split("&")[0].split("=")[1]);
-				request.setExpNo(postBody.split("&")[1].split("=")[1]);
+			    JSONObject json = JSONObject.parseObject(postBody);
+			    if(json == null || !json.containsKey("expCode") || !json.containsKey("expNo")) {
+			        json = Util.getUriParams(uri);
+			    }
+			    if(json != null && json.containsKey("expCode") && json.containsKey("expNo")) {
+                    request.setExpCode(json.getString("expCode"));
+                    request.setExpNo(json.getString("expNo"));
+                }
+			        
 				//执行策略
 				ExpressResponse response = ExpressApiCenter.traceExpress(request);
 				
 				writeAndClose(ctx, JSONObject.toJSON(response));
 			} catch (Exception e) {
+			    logger.error("请求发送异常===={}",e);
 			}
 		}
 	}

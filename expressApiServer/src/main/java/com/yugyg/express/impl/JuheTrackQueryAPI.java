@@ -25,7 +25,8 @@ public class JuheTrackQueryAPI {
 	public static void main(String[] args) {
 		JuheTrackQueryAPI api = new JuheTrackQueryAPI();
 		try {
-			String result = api.getOrderTracesByJson("sto", "9688924333419");
+//			String result = api.getOrderTracesByJson("sto", "9688924333419");
+			String result = api.getOrderTracesByJson("sto", "3365364862344");
 			System.out.print(result);
 			
 		} catch (Exception e) {
