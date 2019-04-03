@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
-encoding//src/main/java=UTF-8
-encoding//src/main/resources=UTF-8
-encoding//src/test/java=UTF-8
-encoding/<project>=UTF-8
+encoding//src/main/java/com/yugyg/ExpressApiCenter.java=UTF-8
+encoding//src/main/java/com/yugyg/express/impl/JuheTrackQueryAPI.java=UTF-8
+encoding//src/main/java/com/yugyg/express/impl/KdniaoTrackQueryAPI.java=UTF-8
+encoding//src/main/java/com/yugyg/httpserver/HttpServer.java=UTF-8
+encoding//src/main/java/com/yugyg/httpserver/HttpServerHandler.java=UTF-8
