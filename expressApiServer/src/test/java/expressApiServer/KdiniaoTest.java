@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yugyg.message.ExpressRequest;
-import com.yugyg.util.RedisUtil;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -29,8 +28,8 @@ public class KdiniaoTest {
 			@Override
 			public void writeTo(BufferedSink sink) throws IOException {
 				ExpressRequest request =new ExpressRequest();
-				request.setExpCode("tiantian");
-				request.setExpNo("668611128225");
+				request.setExpCode("jiuye");
+				request.setExpNo("JY0009523450");
 				sink.writeUtf8(JSONObject.toJSONString(request));
 				
 			}
