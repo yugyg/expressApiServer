@@ -9,10 +9,9 @@ public class RedisUtil {
     private static JedisPool pool = null;
 
     static {
-        System.out.println(ConfigUtil.getRedisPassword());
         if (ConfigUtil.getRedisPassword() != null && !ConfigUtil.getRedisPassword().isEmpty()) {
             pool = new JedisPool(new JedisPoolConfig(), ConfigUtil.getRedisIp(), ConfigUtil.getRedisPort(), 0,
-                ConfigUtil.getRedisPassword(),0,ConfigUtil.getRedisUserName());
+                ConfigUtil.getRedisPassword(), 0, ConfigUtil.getRedisUserName());
         } else {
             pool = new JedisPool(new JedisPoolConfig(), ConfigUtil.getRedisIp(), ConfigUtil.getRedisPort());
         }
@@ -52,9 +51,10 @@ public class RedisUtil {
     }
 
     public static void main(String[] args) {
-//        pool = new JedisPool(new JedisPoolConfig(), "prod-cn-rds.redis.rds.aliyuncs.com", 6379, 0, "12yH35JY!vvx","");
+        //        pool = new JedisPool(new JedisPoolConfig(), "prod-cn-rds.redis.rds.aliyuncs.com", 6379, 0, "12yH35JY!vvx","");
 
-        setJedisPara("t_1","test");
-        System.out.println(getJedisPara("t_1"));;
+        setJedisPara("t_1", "test");
+        System.out.println(getJedisPara("t_1"));
+        ;
     }
 }
